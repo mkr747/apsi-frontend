@@ -1,6 +1,11 @@
 <template>
   <div class="p-4">
-    jakiś wstępny dashboard
+    <b-card
+      class="w-100"
+      title="Users"
+    >
+      troche tekstu a propos usera etc
+    </b-card>
   </div>
 </template>
 

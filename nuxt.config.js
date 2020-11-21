@@ -6,6 +6,10 @@ export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
+  publicRuntimeConfig: {
+    projectTitle: process.env.PROJECT_TITLE
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'apsi-frontend',
@@ -21,7 +25,9 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [
+    '~/plugins/global.js'
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
