@@ -17,6 +17,9 @@ steps:
     versionSpec: '6.x'
   displayName: 'Install node'
 
+- script: rm -rf node_modules
+  displayName: 'Remove depracated node_module'
+
 - script: npm install @nuxt/cli
   displayName: 'Install @nuxt/cli'
 
