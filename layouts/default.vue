@@ -75,6 +75,11 @@ export default Vue.extend({
         title: 'Users',
         slug: 'users',
         icon: 'users',
+      },
+      {
+        title: 'Positions',
+        slug: '/positions',
+        icon: 'user-tag',
       }
     ]
   }),
