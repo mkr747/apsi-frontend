@@ -73,7 +73,7 @@ export default Vue.extend({
       },
       {
         title: 'Users',
-        slug: 'users',
+        slug: '/users',
         icon: 'users',
       },
       {
@@ -83,9 +83,6 @@ export default Vue.extend({
       }
     ]
   }),
-  mounted () {
-    console.log(this.$route)
-  },
   methods: {
     isActive (item: { slug: string }): boolean {
       return this.$route.path === this.toPath(item.slug)
