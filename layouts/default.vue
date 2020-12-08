@@ -17,6 +17,10 @@
               variant="primary"
             />
           </template>
+          <b-dropdown-item to="profile" >
+            <font-awesome-icon icon="user" class="mr-2" />
+            Profile
+          </b-dropdown-item>
           <b-dropdown-item to="login" >
             <font-awesome-icon icon="sign-out-alt" class="mr-2" />
             Logout
