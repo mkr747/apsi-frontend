@@ -5,16 +5,13 @@
         <Logo :style="{ width: '2rem', height: '2rem' }" />
         Core HR
       </b-card-title>
-      <b-card-sub-title class="mb-2">
-        Log In
-      </b-card-sub-title>
-      <b-form @submit="onSubmit">
-        <b-form-group label="Login:" label-for="input-1">
+      <b-form @submit.prevent="onSubmit">
+        <b-form-group label="Email:" label-for="input-1">
           <b-form-input
             id="input-1"
-            v-model="credentials.login"
+            v-model="credentials.email"
             required
-            placeholder="Login"
+            placeholder="email"
           />
         </b-form-group>
         <b-form-group label="Password:" label-for="input-2">
@@ -37,18 +34,40 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import jwt_decode from 'jwt-decode'
+const https = require('https')
 
 export default Vue.extend({
   layout: 'other',
   data: () => ({
     credentials: {
-      login: '',
-      password: ''
+      email: 'admin@admin.com',
+      password: 'admin123'
     }
   }),
   methods: {
     onSubmit() {
-      // TODO: Handle login / password retrieval
+      this.$auth.loginWith(
+        'local',
+        {
+          data: this.credentials,
+          headers: {
+            Authorization: `Basic ${this.credentials.email}:${this.credentials.password}`,
+          },
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          })
+        }
+      )
+      .then(response => {
+        this.$auth.strategy.token.set(response.data.access)
+        this.$auth.setUser({})
+        this.$auth.setUserToken(response.data.access, response.data.refresh)
+        this.$router.push({ path: '/' })
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 })
