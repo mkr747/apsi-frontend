@@ -21,7 +21,7 @@
             <font-awesome-icon icon="user" class="mr-2" />
             Profile
           </b-dropdown-item>
-          <b-dropdown-item to="login" >
+          <b-dropdown-item @click.stop="handleLogout" >
             <font-awesome-icon icon="sign-out-alt" class="mr-2" />
             Logout
           </b-dropdown-item>
@@ -89,6 +89,12 @@ export default Vue.extend({
     },
     toPath (slug: string): string {
       return slug.replace(/\./g, '/')
+    },
+    handleLogout () {
+      this.$auth.logout()
+      .then(() => {
+        this.$router.push({ path: '/login' })
+      })
     }
   }
 })
