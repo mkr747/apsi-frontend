@@ -26,7 +26,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/global.js'
+    '~/plugins/global.js',
+    '~/plugins/axios.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -44,7 +45,33 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
+
+  router: {
+    middleware: ['auth'],
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        scheme: 'local',
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: "user",
+          autoFetch: false
+        },
+        endpoints: {
+          login: { url: '/api/token/', method: 'post' },
+          logout: { url: '/api/user/logout/blacklist/', method: 'post' }
+        }
+      }
+    }
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
