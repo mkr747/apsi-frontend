@@ -94,7 +94,7 @@ export default Vue.extend({
     ]
   }),
   methods: {
-    handleFilter(evt) {
+    handleFilter(evt: Event) {
       evt.preventDefault()
       // send GET request with filtering
     },
