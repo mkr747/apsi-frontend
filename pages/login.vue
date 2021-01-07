@@ -59,7 +59,7 @@ export default Vue.extend({
           })
         }
       )
-      .then(response => {
+      .then((response : any) => {
         this.$auth.strategy.token.set(response.data.access)
         this.$auth.setUser({})
         this.$auth.setUserToken(response.data.access, response.data.refresh)
