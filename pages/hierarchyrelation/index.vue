@@ -22,7 +22,7 @@
         class="mb-4"
       >
         <div class="d-flex">
-          <b-form-input v-for="field in filteredFields" :key="field" class="mr-2" v-model="filters[field]" :style="{ width: '12rem' }" :placeholder="getPlaceholder(String(field))" />
+          <b-form-input v-for="field in filteredFields" :key="field" class="mt-2 mr-2" v-model="filters[field]" :style="{ width: '12rem' }" :placeholder="getPlaceholder(String(field))" />
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">

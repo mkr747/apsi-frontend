@@ -21,15 +21,15 @@
         title="Filters"
         class="mb-4"
       >
-        <div class="d-flex">
-          <b-form-input v-for="field in filteredFields" :key="field" class="mr-2" v-model="filters[field]" :style="{ width: '12rem' }" :placeholder="getPlaceholder(String(field))" />
+        <div class="d-flex flex-wrap">
+          <b-form-input v-for="field in filteredFields" :key="field" class="mt-2 mr-2" v-model="filters[field]" :style="{ width: '12rem' }" :placeholder="getPlaceholder(String(field))" />
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
-        <b-col cols="3">
+        <b-col>
           Date from
         </b-col>
-        <b-col cols="3">
+        <b-col>
           Date to
         </b-col>
         <b-col>
@@ -37,6 +37,9 @@
         </b-col>
         <b-col>
           Department
+        </b-col>
+        <b-col>
+          Contract type
         </b-col>
         <b-col cols="2" class="text-right">
           Actions
@@ -48,10 +51,10 @@
         class="py-1 d-flex align-items-center"
         :class="{ 'bg-light': index % 2 }"
       >
-        <b-col cols="3">
+        <b-col>
           {{ item.date_from }}
         </b-col>
-        <b-col cols="3">
+        <b-col>
           {{ item.date_to }}
         </b-col>
         <b-col>
@@ -59,6 +62,9 @@
         </b-col>
         <b-col>
           {{ item.department }}
+        </b-col>
+        <b-col>
+          {{ item.contract_type }}
         </b-col>
         <b-col cols="2" class="text-right">
           <b-button size="sm" :to="`/contracts/${item.id}`" variant="warning">
@@ -81,11 +87,21 @@ export default Vue.extend({
   mixins: [filters],
   data: () => ({
     items: [],
-    filteredFields: ["name", "surname", "email"]
+    filteredFields: ["date_from", "date_to", "job_position", "department", "contract_type"]
   }),
   async asyncData({ $axios }) {
     const { data: items } = await $axios.get('api/corehr/contract/')
-    return { items }
+    return { items: items.map((item) => ({
+      id: item.id,
+      date_from: item.date_from,
+      date_to: item.date_to,
+      base_rate: item.base_rate,
+      post_code: item.post_code,
+      file_name: item.file_name,
+      job_position: JSON.parse(item.job_position).name,
+      department: JSON.parse(item.department).name,
+      contract_type: JSON.parse(item.contract_type).name,
+    })) }
   },
   methods: {
     showModal(item: {
