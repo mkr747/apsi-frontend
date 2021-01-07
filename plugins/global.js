@@ -11,6 +11,9 @@ import {
   faSitemap,
   faBriefcase,
   faFile,
+  faFileAlt,
+  faLayerGroup,
+  faIdBadge,
   faCalendarTimes,
   faSignOutAlt,
   faSolarPanel
@@ -27,6 +30,9 @@ library.add(faBuilding)
 library.add(faSitemap)
 library.add(faBriefcase)
 library.add(faFile)
+library.add(faFileAlt)
+library.add(faLayerGroup)
+library.add(faIdBadge)
 library.add(faCalendarTimes)
 library.add(faSignOutAlt)
 library.add(faSolarPanel)

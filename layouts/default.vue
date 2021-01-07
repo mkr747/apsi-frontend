@@ -34,7 +34,7 @@
     >
       <b-nav
         class="pt-2 border-right shadow"
-        :style="{ width: '16rem' }"
+        :style="{ width: '16rem', minWidth: '16rem', maxWidth: '16rem' }"
         vertical
       >
         <b-nav-item
@@ -46,7 +46,7 @@
         >
           <div 
             v-if="item.type !== 'Section'"
-            class="d-inline-flex mr-2 justify-content-center align-items-center"
+            class="d-inline-flex mr-2 justify-content-center align-items-center flex-shrink-0"
             :style="{ width: '1.25rem' }"
           >
             <font-awesome-icon
@@ -76,14 +76,39 @@ export default Vue.extend({
         icon: 'solar-panel'
       },
       {
+        type: 'Section',
+        title: "Entities",
+        disabled: true,
+      },
+      {
         title: 'Users',
         slug: '/users',
         icon: 'users',
       },
       {
-        title: 'Abscences',
-        slug: '/abscences',
+        title: 'Absences',
+        slug: '/absences',
         icon: 'calendar-times',
+      },
+      {
+        title: 'Contracts',
+        slug: '/contracts',
+        icon: 'file-alt',
+      },
+      {
+        type: 'Section',
+        title: "Relations",
+        disabled: true,
+      },
+      {
+        title: 'Organization Membership',
+        slug: '/organizationmembership',
+        icon: 'id-badge',
+      },
+      {
+        title: 'Hierarchy Relations',
+        slug: '/hierarchyrelation',
+        icon: 'sitemap',
       },
       {
         type: 'Section',
@@ -98,7 +123,7 @@ export default Vue.extend({
       {
         title: 'Organizations',
         slug: '/organizations',
-        icon: 'sitemap',
+        icon: 'layer-group',
       },
       {
         title: 'Job positions',
@@ -106,7 +131,7 @@ export default Vue.extend({
         icon: 'user-tag',
       },
       {
-        title: 'Abscence types',
+        title: 'Absence types',
         slug: '/absencetype',
         icon: 'briefcase',
       },

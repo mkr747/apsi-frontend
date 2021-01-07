@@ -7,11 +7,11 @@
         <b-row>
           <b-col>
             <b-card-title>
-              List of absence types
+              List of absences
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="absencetype/create" variant="success">
+            <b-button to="absences/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -26,21 +26,42 @@
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
+        <b-col cols="3">
+          Date from
+        </b-col>
+        <b-col cols="3">
+          Date to
+        </b-col>
         <b-col>
-          Name
+          Employee
+        </b-col>
+        <b-col>
+          Absence type
+        </b-col>
+        <b-col cols="2" class="text-right">
+          Actions
         </b-col>
       </b-row>
       <b-row
         v-for="(item, index) in itemsFiltered()"
-        :key="item.name"
+        :key="JSON.stringify(item)"
         class="py-1 d-flex align-items-center"
         :class="{ 'bg-light': index % 2 }"
       >
+        <b-col cols="3">
+          {{ item.date_from }}
+        </b-col>
+        <b-col cols="3">
+          {{ item.date_to }}
+        </b-col>
         <b-col>
-          {{ item.name }}
+          {{ item.employee }}
+        </b-col>
+        <b-col>
+          {{ item.absence_type }}
         </b-col>
         <b-col cols="2" class="text-right">
-          <b-button size="sm" :to="`/absencetype/${item.id}`" variant="warning">
+          <b-button size="sm" :to="`/absences/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
           <b-button size="sm" @click="showModal(item)" variant="danger">
@@ -60,23 +81,30 @@ export default Vue.extend({
   mixins: [filters],
   data: () => ({
     items: [],
-    filteredFields: ["name"],
+    filteredFields: ["date_from", "date_to", "employee", "absence_type"]
   }),
   async asyncData({ $axios }) {
-    const { data: items } = await $axios.get('api/corehr/absencetype/')
+    const { data: items } = await $axios.get('api/corehr/absence/')
     return { items }
   },
   methods: {
     showModal(item: {
       id: Number,
-      name: String,
+      date_from: String,
+      date_to: String,
+      base_rate: String,
+      post_code: String,
+      file_name: String,
+      job_position: String,
+      department: String,
+      contract_type: String,
     }) {
-      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.name}?`, {
+      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.id}?`, {
         okVariant: 'danger',
         okTitle: 'Confirm',
       })
       .then(() => {
-        this.$axios.delete(`api/corehr/absencetype/${item.id}/`)
+        this.$axios.delete(`api/corehr/absence/${item.id}/`)
         .then(() => {
           this.$router.go()
         })

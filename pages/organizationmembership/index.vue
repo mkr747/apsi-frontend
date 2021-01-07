@@ -7,11 +7,11 @@
         <b-row>
           <b-col>
             <b-card-title>
-              List of absence types
+              List of organization memberships
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="absencetype/create" variant="success">
+            <b-button to="organizationmembership/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -27,7 +27,10 @@
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
         <b-col>
-          Name
+          Member employee
+        </b-col>
+        <b-col>
+          Organization
         </b-col>
       </b-row>
       <b-row
@@ -37,10 +40,13 @@
         :class="{ 'bg-light': index % 2 }"
       >
         <b-col>
-          {{ item.name }}
+          {{ item.member_employee }}
+        </b-col>
+        <b-col>
+          {{ item.organization }}
         </b-col>
         <b-col cols="2" class="text-right">
-          <b-button size="sm" :to="`/absencetype/${item.id}`" variant="warning">
+          <b-button size="sm" :to="`/organizationmembership/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
           <b-button size="sm" @click="showModal(item)" variant="danger">
@@ -60,23 +66,26 @@ export default Vue.extend({
   mixins: [filters],
   data: () => ({
     items: [],
-    filteredFields: ["name"],
+    filteredFields: ["member_employee", "organization"],
   }),
   async asyncData({ $axios }) {
-    const { data: items } = await $axios.get('api/corehr/absencetype/')
-    return { items }
+    const { data: items } = await $axios.get('api/corehr/organizationmembership/')
+    return { items: items.map((item) => ({
+      id: item.id,
+      member_employee: JSON.parse(item.member_employee).email,
+      organization: JSON.parse(item.organization).name
+    })) }
   },
   methods: {
     showModal(item: {
       id: Number,
-      name: String,
     }) {
-      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.name}?`, {
+      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.id}?`, {
         okVariant: 'danger',
         okTitle: 'Confirm',
       })
       .then(() => {
-        this.$axios.delete(`api/corehr/absencetype/${item.id}/`)
+        this.$axios.delete(`api/corehr/organizationmembership/${item.id}/`)
         .then(() => {
           this.$router.go()
         })

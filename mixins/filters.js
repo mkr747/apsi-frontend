@@ -11,9 +11,12 @@ export default {
     }, {})
   },
   methods: {
+    getPlaceholder(field) {
+      return field.charAt(0).toUpperCase() + field.slice(1).replace("_", " ");
+    },
     itemsFiltered() {
       return this.filteredFields.reduce((acc, field) => {
-        return this.filters[field] !== '' ? acc.filter(u => u[field].toLowerCase().match(RegExp(this.filters[field].toLowerCase()))) : acc
+        return this.filters[field] !== '' ? acc.filter(u => String(u[field]).toLowerCase().match(RegExp(String(this.filters[field]).toLowerCase()))) : acc
       }, this.items)
     },
   }

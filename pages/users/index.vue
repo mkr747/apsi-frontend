@@ -22,9 +22,7 @@
         class="mb-4"
       >
         <div class="d-flex">
-          <b-form-input class="mr-2" v-model="filters.name" :style="{ width: '12rem' }" placeholder="name"></b-form-input>
-          <b-form-input class="mr-2" v-model="filters.surname" :style="{ width: '12rem' }" placeholder="surname"></b-form-input>
-          <b-form-input class="mr-2" v-model="filters.email" :style="{ width: '12rem' }" placeholder="email"></b-form-input>
+          <b-form-input v-for="field in filteredFields" :key="field" class="mr-2" v-model="filters[field]" :style="{ width: '12rem' }" :placeholder="getPlaceholder(String(field))" />
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
@@ -89,7 +87,7 @@ export default Vue.extend({
       username: String,
       email: String,
     }) {
-      this.$bvModal.msgBoxConfirm(`Do you want to delete user ${item.email}?`, {
+      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.email}?`, {
         okVariant: 'danger',
         okTitle: 'Confirm',
       })

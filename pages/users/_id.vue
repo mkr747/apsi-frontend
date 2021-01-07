@@ -11,7 +11,7 @@
           label-for="Name"
           label="Name"
         >
-          <b-form-input id="Name" required v-model="user.name" />
+          <b-form-input id="Name" required v-model="item.name" />
         </b-form-group>
         <b-form-group
           label-cols="3"
@@ -20,7 +20,7 @@
           label-for="Surname"
           label="Surname"
         >
-          <b-form-input id="Surname" required v-model="user.surname" />
+          <b-form-input id="Surname" required v-model="item.surname" />
         </b-form-group>
         <b-form-group
           label-cols="3"
@@ -29,7 +29,7 @@
           label-for="Password"
           label="Password"
         >
-          <b-form-input id="Password" type="password" required v-model="user.password" />
+          <b-form-input id="Password" type="password" required v-model="item.password" />
         </b-form-group>
         <b-form-group
           label-cols="3"
@@ -38,7 +38,7 @@
           label-for="Email"
           label="Email"
         >
-          <b-form-input id="Email" type="email" v-model="user.email" />
+          <b-form-input id="Email" type="email" v-model="item.email" />
         </b-form-group>
         <b-form-group
           label-cols="3"
@@ -47,7 +47,7 @@
           label-for="Phone"
           label="Phone"
         >
-          <b-form-input id="Phone" type="tel" v-model="user.phone_number" />
+          <b-form-input id="Phone" type="tel" v-model="item.phone_number" />
         </b-form-group>
         <b-form-group
           label-cols="3"
@@ -56,7 +56,7 @@
           label-for="Birthdate"
           label="Birthdate"
         >
-          <b-calendar v-model="user.birthdate" locale="en-US" />
+          <b-calendar v-model="item.birthdate" locale="en-US" />
         </b-form-group>
         <div class="d-flex justify-content-end">
           <b-button class="mr-2" type="submit" variant="success">
@@ -74,7 +74,7 @@
 <script>
 export default {
   data: () => ({
-    user: {
+    item: {
       id: '',
       name: '',
       surname: '',
@@ -85,16 +85,16 @@ export default {
     },
   }),
   async asyncData({ $axios, params }) {
-    const { data: user } = await $axios.get(`api/users/employees/${params.id}/`)
+    const { data: item } = await $axios.get(`api/users/employees/${params.id}/`)
     return {
-      user
+      item
     }
   },
   methods: {
     handleSubmit() {
       this.$axios.put(
-        `api/users/employees/${this.user.id}/`,
-        this.user
+        `api/users/employees/${this.item.id}/`,
+        this.item
       )
       .then(() => {
         this.$router.push({ path: "/users" })
