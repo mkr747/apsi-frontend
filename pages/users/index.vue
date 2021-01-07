@@ -94,7 +94,7 @@ export default Vue.extend({
       .then(() => {
         this.$axios.delete(`api/users/employees/${item.id}/`)
         .then(() => {
-          this.$router.go()
+          this.$router.go(0)
         })
       })
       .catch(err => {

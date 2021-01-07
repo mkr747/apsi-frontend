@@ -122,7 +122,7 @@ export default Vue.extend({
       .then(() => {
         this.$axios.delete(`api/corehr/contract/${item.id}/`)
         .then(() => {
-          this.$router.go()
+          this.$router.go(0)
         })
       })
       .catch(err => {
