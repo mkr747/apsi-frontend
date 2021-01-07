@@ -70,7 +70,7 @@ export default Vue.extend({
   }),
   async asyncData({ $axios }) {
     const { data: items } = await $axios.get('api/corehr/organizationmembership/')
-    return { items: items.map((item) => ({
+    return { items: items.map((item: any) => ({
       id: item.id,
       member_employee: JSON.parse(item.member_employee).email,
       organization: JSON.parse(item.organization).name

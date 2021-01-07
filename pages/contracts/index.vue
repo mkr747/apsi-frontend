@@ -91,7 +91,7 @@ export default Vue.extend({
   }),
   async asyncData({ $axios }) {
     const { data: items } = await $axios.get('api/corehr/contract/')
-    return { items: items.map((item) => ({
+    return { items: items.map((item: any) => ({
       id: item.id,
       date_from: item.date_from,
       date_to: item.date_to,
