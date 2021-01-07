@@ -6,10 +6,18 @@
     >
       <b-row>
         <b-col class="font-weight-bold text-right" cols="3">
-          Username
+          Name
         </b-col>
         <b-col cols="9">
-          {{ username }}
+          {{ name }}
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="font-weight-bold text-right" cols="3">
+          Surname
+        </b-col>
+        <b-col cols="9">
+          {{ surname }}
         </b-col>
       </b-row>
       <b-row>
@@ -25,15 +33,15 @@
           Phone
         </b-col>
         <b-col cols="9">
-          {{ phone }}
+          {{ phone_number }}
         </b-col>
       </b-row>
       <b-row>
         <b-col class="font-weight-bold text-right" cols="3">
-          Address
+          Birthdate
         </b-col>
         <b-col cols="9">
-          {{ address }}
+          {{ birthdate }}
         </b-col>
       </b-row>
     </b-card>
@@ -44,12 +52,10 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  data: () => ({
-    username: 'John Snow',
-    email: 'john@snow.com',
-    phone: '420420420',
-    address: '1217 Walkers Ridge Way, 07717 New Jersey'
-  }),
+  async asyncData({ $axios, $auth }) {
+    const { data: user } = await $axios.get(`api/users/employees/${$auth.user.id}`)
+    return user
+  }
 })
 </script>
 

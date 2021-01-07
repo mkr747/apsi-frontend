@@ -7,11 +7,11 @@
         <b-row>
           <b-col>
             <b-card-title>
-              List of users
+              List of organization memberships
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="users/create" variant="success">
+            <b-button to="organizationmembership/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -26,36 +26,27 @@
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
-        <b-col cols="3">
-          Name
-        </b-col>
-        <b-col cols="3">
-          Surname
+        <b-col>
+          Member employee
         </b-col>
         <b-col>
-          Email
-        </b-col>
-        <b-col cols="2" class="text-right">
-          Actions
+          Organization
         </b-col>
       </b-row>
       <b-row
         v-for="(item, index) in itemsFiltered()"
-        :key="item.email"
+        :key="item.name"
         class="py-1 d-flex align-items-center"
         :class="{ 'bg-light': index % 2 }"
       >
-        <b-col cols="3">
-          {{ item.name }}
-        </b-col>
-        <b-col cols="3">
-          {{ item.surname }}
+        <b-col>
+          {{ item.member_employee }}
         </b-col>
         <b-col>
-          {{ item.email }}
+          {{ item.organization }}
         </b-col>
         <b-col cols="2" class="text-right">
-          <b-button size="sm" :to="`/users/${item.id}`" variant="warning">
+          <b-button size="sm" :to="`/organizationmembership/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
           <b-button size="sm" @click="showModal(item)" variant="danger">
@@ -75,24 +66,26 @@ export default Vue.extend({
   mixins: [filters],
   data: () => ({
     items: [],
-    filteredFields: ["name", "surname", "email"]
+    filteredFields: ["member_employee", "organization"],
   }),
   async asyncData({ $axios }) {
-    const { data: items } = await $axios.get('api/users/employees/')
-    return { items }
+    const { data: items } = await $axios.get('api/corehr/organizationmembership/')
+    return { items: items.map((item) => ({
+      id: item.id,
+      member_employee: JSON.parse(item.member_employee).email,
+      organization: JSON.parse(item.organization).name
+    })) }
   },
   methods: {
     showModal(item: {
       id: Number,
-      username: String,
-      email: String,
     }) {
-      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.email}?`, {
+      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.id}?`, {
         okVariant: 'danger',
         okTitle: 'Confirm',
       })
       .then(() => {
-        this.$axios.delete(`api/users/employees/${item.id}/`)
+        this.$axios.delete(`api/corehr/organizationmembership/${item.id}/`)
         .then(() => {
           this.$router.go()
         })
