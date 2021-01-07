@@ -39,18 +39,22 @@
       >
         <b-nav-item
           v-for="item in navigation"
-          :to="toPath(item.slug)"
+          :to="item.slug ? toPath(item.slug) : undefined"
           :key="item.order"
-          :active="isActive(item)"
+          :active="item.slug ? isActive(item) : false"
           :disabled="!!item.disabled"
         >
-          <div class="d-inline mr-2" :style="{ width: '4rem' }">
+          <div 
+            v-if="item.type !== 'Section'"
+            class="d-inline-flex mr-2 justify-content-center align-items-center"
+            :style="{ width: '1.25rem' }"
+          >
             <font-awesome-icon
               :icon="item.icon || 'users'"
               :style="{ opacity: item.icon ? 1 : 0 }"
             />
           </div>
-          <span v-text="item.title" />
+          <span :style="{ 'font-weight': item.type === 'Section' ? 'bold' : 'normal' }" v-text="item.title" />
         </b-nav-item>
       </b-nav>
       <div class="flex-grow-1 overflow-auto">
@@ -77,10 +81,40 @@ export default Vue.extend({
         icon: 'users',
       },
       {
-        title: 'Positions',
-        slug: '/positions',
+        title: 'Abscences',
+        slug: '/abscences',
+        icon: 'calendar-times',
+      },
+      {
+        type: 'Section',
+        title: "Dictionaries",
+        disabled: true,
+      },
+      {
+        title: 'Departments',
+        slug: '/departments',
+        icon: 'building',
+      },
+      {
+        title: 'Organizations',
+        slug: '/organizations',
+        icon: 'sitemap',
+      },
+      {
+        title: 'Job positions',
+        slug: '/jobposition',
         icon: 'user-tag',
-      }
+      },
+      {
+        title: 'Abscence types',
+        slug: '/absencetype',
+        icon: 'briefcase',
+      },
+      {
+        title: 'Contract types',
+        slug: '/contracttype',
+        icon: 'file',
+      },
     ]
   }),
   methods: {

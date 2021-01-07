@@ -61,7 +61,8 @@ export default Vue.extend({
       )
       .then(response => {
         this.$auth.strategy.token.set(response.data.access)
-        this.$auth.setUser({})
+        const user_token = jwt_decode(response.data.access)
+        this.$auth.setUser({ id: user_token.user_id })
         this.$auth.setUserToken(response.data.access, response.data.refresh)
         this.$router.push({ path: '/' })
       })

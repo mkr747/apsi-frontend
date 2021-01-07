@@ -7,11 +7,11 @@
         <b-row>
           <b-col>
             <b-card-title>
-              List of users
+              List of contract types
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="users/create" variant="success">
+            <b-button to="contracttype/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -23,41 +23,24 @@
       >
         <div class="d-flex">
           <b-form-input class="mr-2" v-model="filters.name" :style="{ width: '12rem' }" placeholder="name"></b-form-input>
-          <b-form-input class="mr-2" v-model="filters.surname" :style="{ width: '12rem' }" placeholder="surname"></b-form-input>
-          <b-form-input class="mr-2" v-model="filters.email" :style="{ width: '12rem' }" placeholder="email"></b-form-input>
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
-        <b-col cols="3">
-          Name
-        </b-col>
-        <b-col cols="3">
-          Surname
-        </b-col>
         <b-col>
-          Email
-        </b-col>
-        <b-col cols="2" class="text-right">
-          Actions
+          Name
         </b-col>
       </b-row>
       <b-row
         v-for="(item, index) in itemsFiltered()"
-        :key="item.email"
+        :key="item.name"
         class="py-1 d-flex align-items-center"
         :class="{ 'bg-light': index % 2 }"
       >
-        <b-col cols="3">
+        <b-col>
           {{ item.name }}
         </b-col>
-        <b-col cols="3">
-          {{ item.surname }}
-        </b-col>
-        <b-col>
-          {{ item.email }}
-        </b-col>
         <b-col cols="2" class="text-right">
-          <b-button size="sm" :to="`/users/${item.id}`" variant="warning">
+          <b-button size="sm" :to="`/contracttype/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
           <b-button size="sm" @click="showModal(item)" variant="danger">
@@ -77,24 +60,23 @@ export default Vue.extend({
   mixins: [filters],
   data: () => ({
     items: [],
-    filteredFields: ["name", "surname", "email"]
+    filteredFields: ["name"],
   }),
   async asyncData({ $axios }) {
-    const { data: items } = await $axios.get('api/users/employees/')
+    const { data: items } = await $axios.get('api/corehr/contracttype/')
     return { items }
   },
   methods: {
     showModal(item: {
       id: Number,
-      username: String,
-      email: String,
+      name: String,
     }) {
-      this.$bvModal.msgBoxConfirm(`Do you want to delete user ${item.email}?`, {
+      this.$bvModal.msgBoxConfirm(`Do you want to delete user ${item.name}?`, {
         okVariant: 'danger',
         okTitle: 'Confirm',
       })
       .then(() => {
-        this.$axios.delete(`api/users/employees/${item.id}/`)
+        this.$axios.delete(`api/corehr/contracttype/${item.id}/`)
         .then(() => {
           this.$router.go()
         })

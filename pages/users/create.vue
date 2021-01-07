@@ -3,27 +3,36 @@
     <b-card
       title="Create user"
     >
-      <b-form @submit="createUser">
+      <b-form @submit.prevent="handleSubmit">
         <b-form-group
           label-cols="3"
           label-align="right"
           label-class="font-weight-bold"
-          label-for="Username"
-          label="Username"
+          label-for="Name"
+          label="Name"
         >
-          <b-form-input id="Username" required v-model="user.username" />
+          <b-form-input id="Name" required v-model="user.name" />
+        </b-form-group>
+        <b-form-group
+          label-cols="3"
+          label-align="right"
+          label-class="font-weight-bold"
+          label-for="Surname"
+          label="Surname"
+        >
+          <b-form-input id="Surname" required v-model="user.surname" />
         </b-form-group>
         <b-form-group
           label-cols="3"
           label-align="right"
           label-class="font-weight-bold"
         >
-          <b-form-checkbox id="generate_password" v-model="user.generate_password">
+          <b-form-checkbox id="generate_password" v-model="meta.generate_password">
             Generate password
           </b-form-checkbox>
         </b-form-group>
         <b-form-group
-          v-if="!user.generate_password"
+          v-if="!meta.generate_password"
           label-cols="3"
           label-align="right"
           label-class="font-weight-bold"
@@ -48,16 +57,16 @@
           label-for="Phone"
           label="Phone"
         >
-          <b-form-input id="Phone" type="tel" v-model="user.phone" />
+          <b-form-input id="Phone" type="tel" v-model="user.phone_number" />
         </b-form-group>
         <b-form-group
           label-cols="3"
           label-align="right"
           label-class="font-weight-bold"
-          label-for="Address"
-          label="Address"
+          label-for="Birthdate"
+          label="Birthdate"
         >
-          <b-form-input id="Address" v-model="user.address" />
+          <b-calendar v-model="user.birthdate" locale="en-US" />
         </b-form-group>
         <div class="d-flex justify-content-end">
           <b-button class="mr-2" type="submit" variant="success">
@@ -76,17 +85,30 @@
 export default {
   data: () => ({
     user: {
-      generate_password: true,
-      username: '',
+      name: '',
+      surname: '',
       password: '',
       email: '',
-      phone: '',
-      address: ''
-    }
+      phone_number: '',
+      birthdate: '',
+    },
+    meta: {
+      generate_password: true,
+    },
   }),
   methods: {
-    createUser() {
+    handleSubmit() {
       //TODO: send create user request
+      if(this.meta.generate_password) {
+        this.user.password = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 16)
+      }
+      this.$axios.post(
+        'api/users/employees/',
+        this.user
+      )
+      .then(() => {
+        this.$router.push({ path: "/users" })
+      })
     },
     handleCancel() {
       this.$router.back()

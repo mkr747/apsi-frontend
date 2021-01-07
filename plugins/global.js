@@ -7,6 +7,11 @@ import {
   faPlus,
   faUser,
   faUsers,
+  faBuilding,
+  faSitemap,
+  faBriefcase,
+  faFile,
+  faCalendarTimes,
   faSignOutAlt,
   faSolarPanel
 } from '@fortawesome/free-solid-svg-icons'
@@ -18,6 +23,11 @@ library.add(faEdit)
 library.add(faPlus)
 library.add(faUser)
 library.add(faUsers)
+library.add(faBuilding)
+library.add(faSitemap)
+library.add(faBriefcase)
+library.add(faFile)
+library.add(faCalendarTimes)
 library.add(faSignOutAlt)
 library.add(faSolarPanel)
 
