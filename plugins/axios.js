@@ -4,6 +4,6 @@ export default function({$axios}, inject) {
     headers: { 'Access-Control-Allow-Origin': '*' }
   })
 
-  api.setBaseURL(process.env.API_URL || 'http://localhost:3000')
+  api.setBaseURL(process.env.API_URL || 'https://40.114.107.163/')
   inject('api', api)
 }
