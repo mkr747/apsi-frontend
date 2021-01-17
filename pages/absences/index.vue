@@ -84,7 +84,6 @@ export default Vue.extend({
     filteredFields: ["date_from", "date_to", "employee", "absence_type"]
   }),
   async asyncData({ $axios }) {
-    console.log("twojastara")
     const { data: items } = await $axios.get('api/corehr/absence/')
     return { items }
   },
