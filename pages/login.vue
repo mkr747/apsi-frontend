@@ -47,27 +47,7 @@ export default Vue.extend({
   }),
   methods: {
     onSubmit() {
-      this.$auth.loginWith(
-        'local',
-        {
-          data: this.credentials,
-          headers: {
-            Authorization: `Basic ${this.credentials.email}:${this.credentials.password}`,
-          },
-          httpsAgent: new https.Agent({
-            rejectUnauthorized: false,
-          })
-        }
-      )
-      .then((response : any) => {
-        const user_token = jwt_decode<{ user_id: String}>(response.data.access)
-        this.$auth.setUser({ id: user_token.user_id })
-        this.$auth.setUserToken(response.data.access, response.data.refresh)
         this.$router.push({ path: '/' })
-      })
-      .catch(err => {
-        console.log(err)
-      })
     }
   }
 })
