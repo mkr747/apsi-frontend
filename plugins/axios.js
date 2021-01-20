@@ -1,9 +1,7 @@
 export default function({$axios}, inject) {
   const api = $axios.create({
-    withCredentials: false,
-    headers: { 'Access-Control-Allow-Origin': '*' }
+    withCredentials: true,
   })
-
-  api.setBaseURL(process.env.API_URL || 'https://40.114.107.163/')
+  api.setBaseURL(process.env.API_URL || 'http://localhost:3000')
   inject('api', api)
 }
