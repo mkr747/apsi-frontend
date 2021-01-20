@@ -23,9 +23,7 @@
           />
         </b-form-group>
         <div class="d-flex justify-content-center">
-          <b-button class="px-5" type="submit">
-            Log In
-          </b-button>
+          <b-button class="px-5" type="submit"> Log In </b-button>
         </div>
       </b-form>
     </b-card>
@@ -67,14 +65,10 @@ export default Vue.extend({
         this.$auth.setUserToken(response.data.access, response.data.refresh)
         this.$router.push({ path: '/' })
       })
-      .catch(err => {
-        console.log(err)
-      })
     }
   }
 })
 </script>
 
 <style>
-
 </style>

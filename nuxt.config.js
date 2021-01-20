@@ -45,32 +45,9 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
   ],
 
   router: {
-    middleware: ['auth'],
-  },
-
-  auth: {
-    strategies: {
-      local: {
-        scheme: 'local',
-        token: {
-          property: 'token',
-          required: true,
-          type: 'Bearer'
-        },
-        user: {
-          property: "user",
-          autoFetch: false
-        },
-        endpoints: {
-          login: { url: '/api/token/', method: 'post' },
-          logout: { url: '/api/user/logout/blacklist/', method: 'post' }
-        }
-      }
-    }
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
