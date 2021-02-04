@@ -61,10 +61,10 @@
           {{ item.absence_type }}
         </b-col>
         <b-col cols="2" class="text-right">
-          <b-button size="sm" :to="`/absences/${item.id}`" variant="warning">
+          <b-button v-if="item.employee === userId || isStaff" size="sm" :to="`/absences/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
-          <b-button size="sm" @click="showModal(item)" variant="danger">
+          <b-button v-if="item.employee === userId || isStaff" size="sm" @click="showModal(item)" variant="danger">
             <font-awesome-icon icon="trash-alt" />
           </b-button>
         </b-col>
@@ -83,9 +83,13 @@ export default Vue.extend({
     items: [],
     filteredFields: ["date_from", "date_to", "employee", "absence_type"]
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store }) {
     const { data: items } = await $axios.get('api/corehr/absence/')
-    return { items }
+    return {
+      items,
+      isStaff: store.state.user.is_staff,
+      userId: store.state.user.user_id
+    }
   },
   methods: {
     showModal(item: {

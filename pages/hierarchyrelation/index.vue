@@ -11,7 +11,7 @@
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="hierarchyrelation/create" variant="success">
+            <b-button v-if="isStaff" to="hierarchyrelation/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -45,7 +45,7 @@
         <b-col>
           {{ item.employee }}
         </b-col>
-        <b-col cols="2" class="text-right">
+        <b-col v-if="isStaff" cols="2" class="text-right">
           <b-button size="sm" :to="`/hierarchyrelation/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
@@ -68,13 +68,16 @@ export default Vue.extend({
     items: [],
     filteredFields: ["manager", "employee"],
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store }) {
     const { data: items } = await $axios.get('api/corehr/managers/')
-    return { items: items.map((item : any) => ({
-      id: item.id,
-      manager: JSON.parse(item.manager).name,
-      employee: JSON.parse(item.employee).name
-    })) }
+    return {
+      items: items.map((item : any) => ({
+        id: item.id,
+        manager: JSON.parse(item.manager).name,
+        employee: JSON.parse(item.employee).name
+      })),
+      isStaff: store.state.user.is_staff
+    }
   },
   methods: {
     showModal(item: {

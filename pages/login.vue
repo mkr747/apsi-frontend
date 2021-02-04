@@ -64,9 +64,11 @@ export default Vue.extend({
         const user_token = jwt_decode<{ user_id: String}>(response.data.access)
         this.$auth.setUser({ id: user_token.user_id })
         this.$auth.setUserToken(response.data.access, response.data.refresh)
-        // const { data: user } = await this.$axios.get(`api/users/employees/${user_token.user_id}`)
-        // this.$store.dispatch('setUser', user)
-        this.$router.push({ path: '/' })
+        const { data: user } = await this.$axios.get(`api/users/employees/${user_token.user_id}/`)
+        this.$store.dispatch('user/setUser', user)
+        .then(() => {
+          this.$router.push({ path: '/' })
+        })
       })
       .catch(err => {
         console.log(err)
