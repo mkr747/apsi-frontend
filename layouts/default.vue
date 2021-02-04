@@ -34,23 +34,27 @@
     >
       <b-nav
         class="pt-2 border-right shadow"
-        :style="{ width: '16rem' }"
+        :style="{ width: '16rem', minWidth: '16rem', maxWidth: '16rem' }"
         vertical
       >
         <b-nav-item
           v-for="item in navigation"
-          :to="toPath(item.slug)"
+          :to="item.slug ? toPath(item.slug) : undefined"
           :key="item.order"
-          :active="isActive(item)"
+          :active="item.slug ? isActive(item) : false"
           :disabled="!!item.disabled"
         >
-          <div class="d-inline mr-2" :style="{ width: '4rem' }">
+          <div 
+            v-if="item.type !== 'Section'"
+            class="d-inline-flex mr-2 justify-content-center align-items-center flex-shrink-0"
+            :style="{ width: '1.25rem' }"
+          >
             <font-awesome-icon
               :icon="item.icon || 'users'"
               :style="{ opacity: item.icon ? 1 : 0 }"
             />
           </div>
-          <span v-text="item.title" />
+          <span :style="{ 'font-weight': item.type === 'Section' ? 'bold' : 'normal' }" v-text="item.title" />
         </b-nav-item>
       </b-nav>
       <div class="flex-grow-1 overflow-auto">
@@ -72,15 +76,70 @@ export default Vue.extend({
         icon: 'solar-panel'
       },
       {
+        type: 'Section',
+        title: "Entities",
+        disabled: true,
+      },
+      {
         title: 'Users',
         slug: '/users',
         icon: 'users',
       },
       {
-        title: 'Positions',
-        slug: '/positions',
+        title: 'Absences',
+        slug: '/absences',
+        icon: 'calendar-times',
+      },
+      {
+        title: 'Contracts',
+        slug: '/contracts',
+        icon: 'file-alt',
+      },
+      {
+        type: 'Section',
+        title: "Relations",
+        disabled: true,
+      },
+      {
+        title: 'Organization Membership',
+        slug: '/organizationmembership',
+        icon: 'id-badge',
+      },
+      {
+        title: 'Hierarchy Relations',
+        slug: '/hierarchyrelation',
+        icon: 'sitemap',
+      },
+      {
+        type: 'Section',
+        title: "Dictionaries",
+        disabled: true,
+      },
+      {
+        title: 'Departments',
+        slug: '/departments',
+        icon: 'building',
+      },
+      {
+        title: 'Organizations',
+        slug: '/organizations',
+        icon: 'layer-group',
+      },
+      {
+        title: 'Job positions',
+        slug: '/jobposition',
         icon: 'user-tag',
-      }
+      },
+      {
+        title: 'Absence types',
+        slug: '/absencetype',
+        icon: 'briefcase',
+      },
+      {
+        title: 'Contract types',
+        slug: '/contracttype',
+        icon: 'file',
+      },
     ]
   }),
   methods: {

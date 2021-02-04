@@ -7,11 +7,11 @@
         <b-row>
           <b-col>
             <b-card-title>
-              List of users
+              List of contracts
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="users/create" variant="success">
+            <b-button to="contracts/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -21,19 +21,25 @@
         title="Filters"
         class="mb-4"
       >
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <b-form-input v-for="field in filteredFields" :key="field" class="mt-2 mr-2" v-model="filters[field]" :style="{ width: '12rem' }" :placeholder="getPlaceholder(String(field))" />
         </div>
       </b-card>
       <b-row class="font-weight-bold border-bottom pb-2">
-        <b-col cols="3">
-          Name
-        </b-col>
-        <b-col cols="3">
-          Surname
+        <b-col>
+          Date from
         </b-col>
         <b-col>
-          Email
+          Date to
+        </b-col>
+        <b-col>
+          Job position
+        </b-col>
+        <b-col>
+          Department
+        </b-col>
+        <b-col>
+          Contract type
         </b-col>
         <b-col cols="2" class="text-right">
           Actions
@@ -41,21 +47,27 @@
       </b-row>
       <b-row
         v-for="(item, index) in itemsFiltered()"
-        :key="item.email"
+        :key="JSON.stringify(item)"
         class="py-1 d-flex align-items-center"
         :class="{ 'bg-light': index % 2 }"
       >
-        <b-col cols="3">
-          {{ item.name }}
-        </b-col>
-        <b-col cols="3">
-          {{ item.surname }}
+        <b-col>
+          {{ item.date_from }}
         </b-col>
         <b-col>
-          {{ item.email }}
+          {{ item.date_to }}
+        </b-col>
+        <b-col>
+          {{ item.job_position }}
+        </b-col>
+        <b-col>
+          {{ item.department }}
+        </b-col>
+        <b-col>
+          {{ item.contract_type }}
         </b-col>
         <b-col cols="2" class="text-right">
-          <b-button size="sm" :to="`/users/${item.id}`" variant="warning">
+          <b-button size="sm" :to="`/contracts/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
           <b-button size="sm" @click="showModal(item)" variant="danger">
@@ -75,24 +87,40 @@ export default Vue.extend({
   mixins: [filters],
   data: () => ({
     items: [],
-    filteredFields: ["name", "surname", "email"]
+    filteredFields: ["date_from", "date_to", "job_position", "department", "contract_type"]
   }),
   async asyncData({ $axios }) {
-    const { data: items } = await $axios.get('api/users/employees/')
-    return { items }
+    const { data: items } = await $axios.get('api/corehr/contract/')
+    return { items: items.map((item: any) => ({
+      id: item.id,
+      date_from: item.date_from,
+      date_to: item.date_to,
+      base_rate: item.base_rate,
+      post_code: item.post_code,
+      file_name: item.file_name,
+      job_position: JSON.parse(item.job_position).name,
+      department: JSON.parse(item.department).name,
+      contract_type: JSON.parse(item.contract_type).name,
+    })) }
   },
   methods: {
     showModal(item: {
       id: Number,
-      username: String,
-      email: String,
+      date_from: String,
+      date_to: String,
+      base_rate: String,
+      post_code: String,
+      file_name: String,
+      job_position: String,
+      department: String,
+      contract_type: String,
     }) {
-      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.email}?`, {
+      this.$bvModal.msgBoxConfirm(`Do you want to delete ${item.file_name}?`, {
         okVariant: 'danger',
         okTitle: 'Confirm',
       })
       .then(() => {
-        this.$axios.delete(`api/users/employees/${item.id}/`)
+        this.$axios.delete(`api/corehr/contract/${item.id}/`)
         .then(() => {
           this.$router.go(0)
         })
