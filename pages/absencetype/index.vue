@@ -11,7 +11,7 @@
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="absencetype/create" variant="success">
+            <b-button v-if="isStaff" to="absencetype/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -39,7 +39,7 @@
         <b-col>
           {{ item.name }}
         </b-col>
-        <b-col cols="2" class="text-right">
+        <b-col v-if="isStaff" cols="2" class="text-right">
           <b-button size="sm" :to="`/absencetype/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
@@ -62,9 +62,12 @@ export default Vue.extend({
     items: [],
     filteredFields: ["name"],
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store }) {
     const { data: items } = await $axios.get('api/corehr/absencetype/')
-    return { items }
+    return {
+      items,
+      isStaff: store.state.user.is_staff
+    }
   },
   methods: {
     showModal(item: {

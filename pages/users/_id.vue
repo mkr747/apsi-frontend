@@ -84,7 +84,10 @@ export default {
       birthdate: '',
     },
   }),
-  async asyncData({ $axios, params }) {
+  async asyncData({ $axios, params, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const { data: item } = await $axios.get(`api/users/employees/${params.id}/`)
     return {
       item

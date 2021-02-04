@@ -38,7 +38,7 @@
         vertical
       >
         <b-nav-item
-          v-for="item in navigation"
+          v-for="item in filteredNavigation"
           :to="item.slug ? toPath(item.slug) : undefined"
           :key="item.order"
           :active="item.slug ? isActive(item) : false"
@@ -84,6 +84,7 @@ export default Vue.extend({
         title: 'Users',
         slug: '/users',
         icon: 'users',
+        requireAdmin: true
       },
       {
         title: 'Absences',
@@ -94,6 +95,7 @@ export default Vue.extend({
         title: 'Contracts',
         slug: '/contracts',
         icon: 'file-alt',
+        requireAdmin: true
       },
       {
         type: 'Section',
@@ -119,6 +121,7 @@ export default Vue.extend({
         title: 'Departments',
         slug: '/departments',
         icon: 'building',
+        requireAdmin: true
       },
       {
         title: 'Organizations',
@@ -129,6 +132,7 @@ export default Vue.extend({
         title: 'Job positions',
         slug: '/jobposition',
         icon: 'user-tag',
+        requireAdmin: true
       },
       {
         title: 'Absence types',
@@ -139,9 +143,17 @@ export default Vue.extend({
         title: 'Contract types',
         slug: '/contracttype',
         icon: 'file',
+        requireAdmin: true
       },
     ]
   }),
+  computed: {
+    filteredNavigation() {
+      return this.navigation.filter((item : any) => {
+        return this.$store.state.user.is_staff ? true : !item.requireAdmin
+      })
+    }
+  },
   methods: {
     isActive (item: { slug: string }): boolean {
       return this.$route.path === this.toPath(item.slug)

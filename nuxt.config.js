@@ -67,7 +67,8 @@ export default {
         },
         endpoints: {
           login: { url: '/api/token/', method: 'post' },
-          logout: { url: '/api/user/logout/blacklist/', method: 'post' }
+          logout: false,
+          user: false
         }
       }
     }

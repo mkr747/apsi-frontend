@@ -89,7 +89,10 @@ export default Vue.extend({
     items: [],
     filteredFields: ["date_from", "date_to", "job_position", "department", "contract_type"]
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const { data: items } = await $axios.get('api/corehr/contract/')
     return { items: items.map((item: any) => ({
       id: item.id,

@@ -11,7 +11,7 @@
             </b-card-title>
           </b-col>
           <b-col cols="1" class="text-right">
-            <b-button to="organizationmembership/create" variant="success">
+            <b-button v-if="isStaff" to="organizationmembership/create" variant="success">
               <font-awesome-icon icon="plus" />
             </b-button>
           </b-col>
@@ -45,7 +45,7 @@
         <b-col>
           {{ item.organization }}
         </b-col>
-        <b-col cols="2" class="text-right">
+        <b-col v-if="isStaff" cols="2" class="text-right">
           <b-button size="sm" :to="`/organizationmembership/${item.id}`" variant="warning">
             <font-awesome-icon icon="edit" />
           </b-button>
@@ -68,13 +68,16 @@ export default Vue.extend({
     items: [],
     filteredFields: ["member_employee", "organization"],
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store }) {
     const { data: items } = await $axios.get('api/corehr/organizationmembership/')
-    return { items: items.map((item: any) => ({
-      id: item.id,
-      member_employee: JSON.parse(item.member_employee).email,
-      organization: JSON.parse(item.organization).name
-    })) }
+    return { 
+      items: items.map((item: any) => ({
+        id: item.id,
+        member_employee: JSON.parse(item.member_employee).email,
+        organization: JSON.parse(item.organization).name
+      })),
+      isStaff: store.state.user.is_staff
+    }
   },
   methods: {
     showModal(item: {

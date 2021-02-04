@@ -54,7 +54,7 @@ import Vue from 'vue'
 export default Vue.extend({
   async asyncData({ $axios, $auth }) {
     if($auth && $auth.user && $auth.user.id) {
-      const { data: user } = await $axios.get(`api/users/employees/${$auth.user.id}`)
+      const { data: user } = await $axios.get(`api/users/employees/${$auth.user.id}/`)
       return user
     } else {
       $auth.logout()

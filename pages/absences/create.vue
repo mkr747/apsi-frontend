@@ -29,7 +29,7 @@
           label-for="Employee"
           label="Employee"
         >
-          <b-form-select id="Employee" required v-model="item.employee" :options="getOptions(employees)" />
+          <b-form-select id="Employee" required :disabled="!isStaff" v-model="item.employee" :options="getOptions(employees)" />
         </b-form-group>
         <b-form-group
           label-cols="3"
@@ -63,8 +63,7 @@ export default {
       employee: null,
     },
   }),
-  async asyncData({ $axios }) {
-    
+  async asyncData({ $axios, store }) {
     const responses = await Promise.all([
       $axios.get('/api/users/employees/'),
       $axios.get('/api/corehr/absencetype/'),
@@ -74,6 +73,13 @@ export default {
     return {
       employees,
       absence_types,
+      isStaff: store.state.user.is_staff,
+      item: {
+        employee: store.state.user.user_id,
+        date_from: '',
+        date_to: '',
+        absence_type: null,
+      },
     }
   },
   methods: {

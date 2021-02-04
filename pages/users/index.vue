@@ -77,7 +77,10 @@ export default Vue.extend({
     items: [],
     filteredFields: ["name", "surname", "email"]
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const { data: items } = await $axios.get('api/users/employees/')
     return { items }
   },

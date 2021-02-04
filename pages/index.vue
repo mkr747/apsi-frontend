@@ -1,6 +1,9 @@
 <template>
   <div class="p-4">
-    jakiś wstępny dashboard
+    <b-card class="shadow">
+      <h2>Human Resources Mission Statement</h2>
+      Human Resources partners with District leadership to recruit, develop, and support a culturally diverse workforce dedicated to the highest standards of equity and achievement that creates an environment of empowerment and success for our students, employees, and the communities we serve.
+    </b-card>
   </div>
 </template>
 

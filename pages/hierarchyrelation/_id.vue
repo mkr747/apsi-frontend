@@ -44,7 +44,10 @@ export default {
       employee: null
     },
   }),
-  async asyncData({ $axios, params }) {
+  async asyncData({ $axios, params, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const responses = await Promise.all([
       $axios.get('/api/users/employees/'),
       $axios.get(`api/corehr/managers/${params.id}/`)

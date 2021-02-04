@@ -33,6 +33,11 @@ export default {
       name: '',
     },
   }),
+  async asyncData({ store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
+  },
   methods: {
     handleSubmit() {
       this.$axios.post(

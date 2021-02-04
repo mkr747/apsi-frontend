@@ -16,7 +16,8 @@ import {
   faIdBadge,
   faCalendarTimes,
   faSignOutAlt,
-  faSolarPanel
+  faSolarPanel,
+  faHSquare,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -36,5 +37,6 @@ library.add(faIdBadge)
 library.add(faCalendarTimes)
 library.add(faSignOutAlt)
 library.add(faSolarPanel)
+library.add(faHSquare)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
