@@ -1,9 +1,9 @@
 import { faCommentMedical } from "@fortawesome/free-solid-svg-icons"
 
-const state = {
+const state = () => ({
   user_id: null,
   is_staff: false
-}
+})
 
 const mutations = {
   SET_USER(state, data) {
