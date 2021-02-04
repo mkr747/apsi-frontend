@@ -96,6 +96,11 @@ export default {
       generate_password: true,
     },
   }),
+  async asyncData({ store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
+  },
   methods: {
     handleSubmit() {
       if(this.meta.generate_password) {

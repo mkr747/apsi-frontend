@@ -34,7 +34,10 @@ export default {
       name: '',
     },
   }),
-  async asyncData({ $axios, params }) {
+  async asyncData({ $axios, params, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const { data: item } = await $axios.get(`api/corehr/jobposition/${params.id}/`)
     return {
       item

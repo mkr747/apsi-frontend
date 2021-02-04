@@ -43,7 +43,10 @@ export default {
       employee: null
     },
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const { data: employees } = await $axios.get('/api/users/employees/')
     return {
       employees,

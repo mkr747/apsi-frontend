@@ -103,8 +103,10 @@ export default {
       department: null,
     },
   }),
-  async asyncData({ $axios }) {
-    
+  async asyncData({ $axios, store, redirect }) {
+    if(!store.state.user.is_staff) {
+      redirect('/')
+    }
     const responses = await Promise.all([
       $axios.get('/api/corehr/department/'),
       $axios.get('/api/corehr/jobposition/'),
